@@ -23,7 +23,9 @@
 
 # **2.3 Small changes, add IP and Port**
 
-![Screenshot 1](/assets/images/screenshot-1.png)
+![Screenshot server 1](/assets/images/screenshot-server-1.png)
+![Screenshot client 1](/assets/images/screenshot-client-1.png)
+![Screenshot client 1](/assets/images/screenshot-client-2.png)
 
 - The server now forwards each message with the sender address included, using the client's socket address (IP and port) as the identifier.
 - This means we do not need a name registry yet; every client sees who sent the message by the sender's `IP:PORT`.
