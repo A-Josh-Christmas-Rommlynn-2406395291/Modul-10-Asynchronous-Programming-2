@@ -20,3 +20,13 @@
 - Defined in `src/bin/client.rs`.
 - The WebSocket URI is configured with `WS_URI`.
 - It connects to the server on the same port and sends/receives WebSocket messages.
+
+# **2.3 Small changes, add IP and Port**
+
+![Screenshot 1](/assets/images/screenshot-1.png)
+
+- The server now forwards each message with the sender address included, using the client's socket address (IP and port) as the identifier.
+- This means we do not need a name registry yet; every client sees who sent the message by the sender's `IP:PORT`.
+- The client receives the formatted text from the server and displays it as a message from another client.
+
+**Explanation:** I changed the message format so sender identity is carried by the IP and port. This is useful when clients do not have user names yet, and it allows everyone to know which remote client sent each WebSocket message. 

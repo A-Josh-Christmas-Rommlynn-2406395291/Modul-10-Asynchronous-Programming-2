@@ -25,12 +25,14 @@ async fn handle_connection(
                     Some(Ok(msg)) => {
                         if msg.is_text() {
                             if let Some(txt) = msg.as_text() {
-                                let to_send = format!("{}: {}", addr, txt);
+                                let to_send = format!("[{}]: {}", addr, txt);
+                                println!("Received from client {}: {}", addr, txt);
                                 let _ = bcast_tx.send(to_send);
                             }
                         } else if msg.is_binary() {
                             let len = msg.as_payload().len();
-                            let _ = bcast_tx.send(format!("{}: <binary {} bytes>", addr, len));
+                            println!("Received binary from client {} ({} bytes)", addr, len);
+                            let _ = bcast_tx.send(format!("[{}]: <binary {} bytes>", addr, len));
                         } else if msg.is_ping() || msg.is_pong() || msg.is_close() {
                             // ignore control messages
                         }
@@ -51,7 +53,7 @@ async fn handle_connection(
                 match result {
                     Ok(text) => {
                         // Avoid echoing messages back to the original sender
-                        if !text.starts_with(&format!("{}:", addr)) {
+                        if !text.starts_with(&format!("[{}]:", addr)) {
                             if let Err(e) = ws_stream.send(Message::text(text)).await {
                                 eprintln!("failed to send to {addr}: {e}");
                                 break;
@@ -82,7 +84,7 @@ async fn main() -> Result<(), Box<dyn Error + Send + Sync>> {
 
     loop {
         let (socket, addr) = listener.accept().await?;
-        println!("New connection from {addr:?}");
+        println!("New connection from Josh's Computer (2406395291) in {addr:?}");
         let bcast_tx = bcast_tx.clone();
         tokio::spawn(async move {
             // Wrap the raw TCP stream into a websocket.

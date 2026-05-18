@@ -23,7 +23,6 @@ async fn main() -> Result<(), tokio_websockets::Error> {
     let mut stdin = BufReader::new(stdin).lines();
 
 
-    // TODO: For a hint, see the description of the task below.
     loop {
         tokio::select! {
             // Read a line from stdin and send it to the server
@@ -52,7 +51,7 @@ async fn main() -> Result<(), tokio_websockets::Error> {
                     Some(Ok(msg)) => {
                         if msg.is_text() {
                             if let Some(txt) = msg.as_text() {
-                                println!("{txt}");
+                                println!("[Josh's Computer - From another client]: {}", txt);
                             }
                         } else if msg.is_binary() {
                             println!("<binary {} bytes>", msg.as_payload().len());
